@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZAPTI-SHOP | Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>ZAPTI<span>-SHOP</span></h1>
+    <p>Escolha e peça pelo WhatsApp</p>
+</header>
+
+<main class="container" id="vitrine"></main>
+
+<div id="btnAbrirGoogle" onclick="abrirMiniPlayer()" title="Busca Rápida Google">
+    <span>G</span>
+</div>
+
+<div id="modalCheckout" class="modal">
+    <div class="modal-content">
+        <h2>Dados de Entrega</h2>
+        <input type="text" id="clienteNome" placeholder="Seu Nome">
+        <input type="text" id="clienteEndereco" placeholder="Endereço">
+        <input type="text" id="clienteNumero" placeholder="Número/Apto">
+        <input type="text" id="clienteContato" placeholder="Telefone de Contato">
+        <div class="modal-buttons">
+            <button onclick="fecharModal()" class="btn-cancelar">Cancelar</button>
+            <button id="btnFinalizar" class="btn-whatsapp">Finalizar Pedido</button>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDdgT50VAOkLWpDrbBJm_dLdfsehkSJBE",
+        authDomain: "zaptishopwhats.firebaseapp.com",
+        projectId: "zaptishopwhats",
+        storageBucket: "zaptishopwhats.firebasestorage.app",
+        messagingSenderId: "59817153140",
+        appId: "1:59817153140:web:357f32130e15eb8b66b721"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const zapNumber = "5534984294172"; 
+
+    let produtoAtual = null;
+
+    // Função do Mini Player Flutuante
+    window.abrirMiniPlayer = () => {
+        const largura = 450;
+        const altura = 600;
+        const esquerda = (window.screen.width / 2) - (largura / 2);
+        const topo = (window.screen.height / 2) - (altura / 2);
+
+        window.open(
+            "https://www.google.com/search?igu=1", 
+            "ZaptiPlayer", 
+            `width=${largura},height=${altura},top=${topo},left=${esquerda},menubar=no,status=no,toolbar=no`
+        );
+    };
+
+    // Funções do Modal
+    window.abrirModal = (nome, preco) => {
+        produtoAtual = { nome, preco };
+        document.getElementById('modalCheckout').style.display = 'flex';
+    };
+
+    window.fecharModal = () => {
+        document.getElementById('modalCheckout').style.display = 'none';
+        produtoAtual = null;
+    };
+
+    // Lógica da Vitrine
+    onSnapshot(collection(db, "produtos"), (snapshot) => {
+        const vitrine = document.getElementById('vitrine');
+        vitrine.innerHTML = "";
+        snapshot.docs.forEach(doc => {
+            const p = doc.data();
+            const qtd = p.estoque || 0;
+            const esgotado = qtd <= 0;
+            
+            const cardStyle = esgotado ? "opacity: 0.5; filter: grayscale(0.5);" : "";
+            const btnClass = esgotado ? "btn-whatsapp esgotado" : "btn-whatsapp";
+            const btnTexto = esgotado ? "Esgotado" : "Pedir no WhatsApp";
+            const acaoBotao = esgotado ? "" : `onclick="abrirModal('${p.nome}', '${p.preco}')"`;
+
+            vitrine.innerHTML += `
+                <div class="product-card" style="${cardStyle}">
+                    <div class="product-image"><img src="${p.img || 'https://via.placeholder.com/150'}"></div>
+                    <div class="product-info">
+                        <h3>${p.nome}</h3>
+                        <p class="price">R$ ${p.preco}</p>
+                        <p class="stock-info">Estoque: ${qtd}</p>
+                        <button ${acaoBotao} class="${btnClass}">${btnTexto}</button>
+                    </div>
+                </div>`;
+        });
+    });
+
+    // Envio para o WhatsApp
+    document.getElementById('btnFinalizar').onclick = () => {
+        const nome = document.getElementById('clienteNome').value;
+        const end = document.getElementById('clienteEndereco').value;
+        const num = document.getElementById('clienteNumero').value;
+        const contato = document.getElementById('clienteContato').value;
+
+        if (!nome || !end || !contato) {
+            alert("Preencha todos os campos!");
+            return;
+        }
+
+        const numPedido = Math.floor(1000 + Math.random() * 9000);
+
+        const mensagem = `*NOVO PEDIDO #${numPedido}*\n\n` +
+                         `*Produto:* ${produtoAtual.nome}\n` +
+                         `*Valor:* R$ ${produtoAtual.preco}\n\n` +
+                         `*DADOS DO CLIENTE*\n` +
+                         `*Nome:* ${nome}\n` +
+                         `*Endereço:* ${end}, ${num}\n` +
+                         `*Contato:* ${contato}`;
+
+        const link = `https://wa.me/${zapNumber}?text=${encodeURIComponent(mensagem)}`;
+        window.open(link, '_blank');
+        fecharModal();
+    };
+</script>
+</body>
+</html>

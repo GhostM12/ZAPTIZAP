@@ -1,0 +1,138 @@
+/* Configurações Gerais */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+body { background-color: #0d0d0d; color: #e0e0e0; line-height: 1.6; }
+
+header { background-color: #1a1a1a; padding: 2rem; text-align: center; border-bottom: 3px solid #25d366; }
+header h1 span { color: #25d366; }
+
+.container { 
+    max-width: 1100px; 
+    margin: 2rem auto; 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 25px; 
+    padding: 0 1rem; 
+}
+
+/* Card de Produto */
+.product-card { 
+    background: #1a1a1a; 
+    border-radius: 12px; 
+    border: 1px solid #333; 
+    overflow: hidden; 
+    transition: 0.3s; 
+    display: flex; 
+    flex-direction: column; 
+}
+.product-card:hover { transform: translateY(-5px); border-color: #25d366; }
+.product-image img { width: 100%; height: 250px; object-fit: cover; background: #222; }
+.product-info { padding: 1.5rem; text-align: center; flex-grow: 1; }
+.price { font-size: 1.4rem; color: #25d366; font-weight: bold; margin: 10px 0; }
+
+.btn-whatsapp { 
+    display: block; 
+    background: #25d366; 
+    color: white; 
+    text-decoration: none; 
+    padding: 12px; 
+    border-radius: 6px; 
+    font-weight: bold; 
+    text-align: center;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+}
+
+.stock-info { font-size: 0.85rem; color: #00a884; margin-bottom: 10px; }
+
+/* Admin Box */
+.admin-box { background: #1a1a1a; max-width: 500px; margin: 2rem auto; padding: 2rem; border-radius: 10px; border: 1px solid #333; }
+.admin-box input, .admin-box textarea { width: 100%; padding: 12px; margin: 8px 0; background: #000; border: 1px solid #444; color: white; border-radius: 4px; }
+.btn-save { width: 100%; padding: 12px; background: #25d366; border: none; color: white; font-weight: bold; cursor: pointer; border-radius: 4px; }
+
+.admin-item { background: #222; padding: 10px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center; border-radius: 4px; }
+.btn-del { background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+
+/* Modal de Checkout */
+.modal {
+    display: none; 
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #1a1a1a;
+    padding: 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    border: 1px solid #00a884;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal-content h2 { color: #fff; text-align: center; margin-bottom: 10px; }
+
+.modal-content input {
+    background: #000;
+    border: 1px solid #333;
+    padding: 12px;
+    color: #fff;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-cancelar {
+    background: #444;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    flex: 1;
+}
+
+/* Botão do Mini Player Google */
+#btnAbrirGoogle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #25d366;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    z-index: 1000;
+    transition: 0.3s ease;
+    border: 2px solid #1a1a1a;
+}
+
+#btnAbrirGoogle:hover {
+    transform: scale(1.1) rotate(10deg);
+    background-color: #128c7e;
+}
+
+/* Estado Esgotado */
+.btn-whatsapp.esgotado {
+    background: #333 !important;
+    cursor: not-allowed;
+    pointer-events: none;
+}

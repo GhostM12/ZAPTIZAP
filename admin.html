@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>ZAPTI-SHOP | Gerenciar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>PAINEL <span>ADMIN</span></h1>
+</header>
+
+<div class="admin-box">
+    <div class="form-group">
+        <input type="text" id="n" placeholder="Nome do Produto">
+        <textarea id="d" placeholder="Descrição"></textarea>
+        <input type="text" id="p" placeholder="Preço (ex: 99.90)">
+        <input type="number" id="q" placeholder="Qtd em Estoque">
+        <input type="text" id="i" placeholder="URL da Imagem">
+        <button class="btn-save" id="btnSalvar">Salvar Produto</button>
+    </div>
+    <div id="listaAdmin"></div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDdgT50VAOkLWpDrbBJm_dLdfsehkSJBE",
+        authDomain: "zaptishopwhats.firebaseapp.com",
+        projectId: "zaptishopwhats",
+        storageBucket: "zaptishopwhats.firebasestorage.app",
+        messagingSenderId: "59817153140",
+        appId: "1:59817153140:web:357f32130e15eb8b66b721"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const col = collection(db, "produtos");
+
+    document.getElementById('btnSalvar').onclick = async () => {
+        const nome = document.getElementById('n').value;
+        const desc = document.getElementById('d').value;
+        const preco = document.getElementById('p').value;
+        const estoque = parseInt(document.getElementById('q').value) || 0;
+        const img = document.getElementById('i').value;
+        
+        if(!nome || !preco) return alert("Preencha ao menos nome e preço!");
+
+        await addDoc(col, { nome, desc, preco, estoque, img });
+        alert("Produto salvo com sucesso!");
+        document.querySelectorAll('input, textarea').forEach(el => el.value = "");
+    };
+
+    onSnapshot(col, (snap) => {
+        const lista = document.getElementById('listaAdmin');
+        lista.innerHTML = "";
+        snap.docs.forEach(d => {
+            const data = d.data();
+            lista.innerHTML += `
+                <div class="admin-item">
+                    <span>${data.nome} <strong>(Qtd: ${data.estoque || 0})</strong></span>
+                    <button class="btn-del" onclick="apagar('${d.id}')">X</button>
+                </div>`;
+        });
+    });
+
+    window.apagar = (id) => {
+        if(confirm("Deseja excluir este produto?")) deleteDoc(doc(db, "produtos", id));
+    };
+</script>
+</body>
+</html>
