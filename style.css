@@ -45,14 +45,6 @@ header h1 span { color: #25d366; }
 
 .stock-info { font-size: 0.85rem; color: #00a884; margin-bottom: 10px; }
 
-/* Admin Box */
-.admin-box { background: #1a1a1a; max-width: 500px; margin: 2rem auto; padding: 2rem; border-radius: 10px; border: 1px solid #333; }
-.admin-box input, .admin-box textarea { width: 100%; padding: 12px; margin: 8px 0; background: #000; border: 1px solid #444; color: white; border-radius: 4px; }
-.btn-save { width: 100%; padding: 12px; background: #25d366; border: none; color: white; font-weight: bold; cursor: pointer; border-radius: 4px; }
-
-.admin-item { background: #222; padding: 10px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center; border-radius: 4px; }
-.btn-del { background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
-
 /* Modal de Checkout */
 .modal {
     display: none; 
@@ -71,13 +63,12 @@ header h1 span { color: #25d366; }
     width: 90%;
     max-width: 400px;
     border: 1px solid #00a884;
-    display: flex;
+    display: flex; 
     flex-direction: column;
     gap: 12px;
 }
 
 .modal-content h2 { color: #fff; text-align: center; margin-bottom: 10px; }
-
 .modal-content input {
     background: #000;
     border: 1px solid #333;
@@ -87,11 +78,7 @@ header h1 span { color: #25d366; }
     width: 100%;
 }
 
-.modal-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
+.modal-buttons { display: flex; gap: 10px; margin-top: 10px; }
 
 .btn-cancelar {
     background: #444;
@@ -103,31 +90,29 @@ header h1 span { color: #25d366; }
     flex: 1;
 }
 
-/* Botão do Mini Player Google */
+/* Botão Flutuante G - TOTALMENTE OCULTO */
 #btnAbrirGoogle {
+    display: none !important; 
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
     background-color: #25d366;
     color: white;
     border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    font-size: 24px;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     z-index: 1000;
-    transition: 0.3s ease;
-    border: 2px solid #1a1a1a;
 }
 
-#btnAbrirGoogle:hover {
-    transform: scale(1.1) rotate(10deg);
-    background-color: #128c7e;
+/* Janela do Mini Player - TOTALMENTE OCULTA */
+#wrapperGoogle {
+    display: none !important; 
+    position: fixed;
+    bottom: 85px;
+    right: 20px;
+    width: 350px;
+    height: 500px;
+    z-index: 10000;
 }
 
 /* Estado Esgotado */
@@ -135,4 +120,10 @@ header h1 span { color: #25d366; }
     background: #333 !important;
     cursor: not-allowed;
     pointer-events: none;
+}
+
+/* Ajustes para Mobile */
+@media (max-width: 480px) {
+    .container { grid-template-columns: 1fr; }
+    .modal-content { width: 95%; }
 }
