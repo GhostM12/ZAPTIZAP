@@ -1,9 +1,18 @@
-/* Configurações Gerais */
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-body { background-color: #0d0d0d; color: #e0e0e0; line-height: 1.6; }
+/* Configurações Gerais - Nevasca Açaí */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Segoe UI', sans-serif; }
+body { background-color: #1a0026; color: #ffffff; line-height: 1.6; }
 
-header { background-color: #1a1a1a; padding: 2rem; text-align: center; border-bottom: 3px solid #25d366; }
-header h1 span { color: #25d366; }
+header { 
+    background: linear-gradient(135deg, #4b0082, #8a2be2); 
+    padding: 3rem 1rem; 
+    text-align: center; 
+    border-bottom: 5px solid #00f2ff; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+header h1 { font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px #000; }
+header h1 span { color: #00f2ff; } /* Azul Neon para o efeito Nevasca */
+header p { font-weight: bold; color: #e0e0e0; }
 
 .container { 
     max-width: 1100px; 
@@ -14,116 +23,81 @@ header h1 span { color: #25d366; }
     padding: 0 1rem; 
 }
 
-/* Card de Produto */
+/* Card de Produto Vibrante */
 .product-card { 
-    background: #1a1a1a; 
-    border-radius: 12px; 
-    border: 1px solid #333; 
+    background: #2d004d; 
+    border-radius: 20px; 
+    border: 2px solid #4b0082; 
     overflow: hidden; 
     transition: 0.3s; 
     display: flex; 
     flex-direction: column; 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
 }
-.product-card:hover { transform: translateY(-5px); border-color: #25d366; }
-.product-image img { width: 100%; height: 250px; object-fit: cover; background: #222; }
+.product-card:hover { transform: scale(1.03); border-color: #00f2ff; }
+.product-image img { width: 100%; height: 220px; object-fit: cover; border-bottom: 3px solid #4b0082; }
+
 .product-info { padding: 1.5rem; text-align: center; flex-grow: 1; }
-.price { font-size: 1.4rem; color: #25d366; font-weight: bold; margin: 10px 0; }
+.product-info h3 { font-size: 1.5rem; margin-bottom: 0.5rem; color: #fff; }
+
+.price { font-size: 1.8rem; color: #00f2ff; font-weight: 900; margin: 10px 0; text-shadow: 1px 1px 5px rgba(0,242,255,0.3); }
 
 .btn-whatsapp { 
     display: block; 
     background: #25d366; 
     color: white; 
     text-decoration: none; 
-    padding: 12px; 
-    border-radius: 6px; 
+    padding: 15px; 
+    border-radius: 50px; 
     font-weight: bold; 
     text-align: center;
     border: none;
     width: 100%;
     cursor: pointer;
+    font-size: 1.1rem;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4);
 }
+.btn-whatsapp:hover { background: #128c7e; transform: translateY(-2px); }
 
-.stock-info { font-size: 0.85rem; color: #00a884; margin-bottom: 10px; }
+.stock-info { font-size: 0.9rem; color: #b19cd9; margin-bottom: 10px; }
 
 /* Modal de Checkout */
 .modal {
-    display: none; 
-    position: fixed;
+    display: none; position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.9);
-    z-index: 9999;
-    justify-content: center;
-    align-items: center;
+    background: rgba(26, 0, 38, 0.95);
+    z-index: 9999; justify-content: center; align-items: center;
 }
 
 .modal-content {
-    background: #1a1a1a;
-    padding: 25px;
-    border-radius: 10px;
+    background: #2d004d;
+    padding: 30px;
+    border-radius: 25px;
     width: 90%;
-    max-width: 400px;
-    border: 1px solid #00a884;
-    display: flex; 
-    flex-direction: column;
-    gap: 12px;
+    max-width: 450px;
+    border: 2px solid #00f2ff;
+    display: flex; flex-direction: column; gap: 15px;
 }
 
-.modal-content h2 { color: #fff; text-align: center; margin-bottom: 10px; }
+.modal-content h2 { color: #00f2ff; text-align: center; margin-bottom: 10px; }
 .modal-content input {
-    background: #000;
-    border: 1px solid #333;
-    padding: 12px;
+    background: #1a0026;
+    border: 1px solid #4b0082;
+    padding: 15px;
     color: #fff;
-    border-radius: 5px;
-    width: 100%;
+    border-radius: 10px;
+    font-size: 1rem;
 }
 
-.modal-buttons { display: flex; gap: 10px; margin-top: 10px; }
-
+.modal-buttons { display: flex; gap: 10px; }
 .btn-cancelar {
-    background: #444;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    flex: 1;
+    background: #ff4444; color: white; border: none;
+    padding: 15px; border-radius: 10px; cursor: pointer; flex: 1; font-weight: bold;
 }
 
-/* Botão Flutuante G - TOTALMENTE OCULTO */
-#btnAbrirGoogle {
-    display: none !important; 
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 55px;
-    height: 55px;
-    background-color: #25d366;
-    color: white;
-    border-radius: 50%;
-    z-index: 1000;
-}
-
-/* Janela do Mini Player - TOTALMENTE OCULTA */
-#wrapperGoogle {
-    display: none !important; 
-    position: fixed;
-    bottom: 85px;
-    right: 20px;
-    width: 350px;
-    height: 500px;
-    z-index: 10000;
-}
+/* Esconder elementos do Google */
+#btnAbrirGoogle, #wrapperGoogle { display: none !important; }
 
 /* Estado Esgotado */
-.btn-whatsapp.esgotado {
-    background: #333 !important;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-/* Ajustes para Mobile */
-@media (max-width: 480px) {
-    .container { grid-template-columns: 1fr; }
-    .modal-content { width: 95%; }
-}
+.btn-whatsapp.esgotado { background: #555 !important; cursor: not-allowed; opacity: 0.6; }
