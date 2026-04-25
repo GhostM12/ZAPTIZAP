@@ -20,14 +20,58 @@
 
 <main class="container" id="vitrine"></main>
 
+<div id="modalCheckout" class="modal">
+    <div class="modal-content">
+        <h2>Finalizar Pedido</h2>
+        <input type="text" id="cNome" placeholder="Seu Nome">
+        <input type="text" id="cEnd" placeholder="Endereço de Entrega">
+        <input type="text" id="cNum" placeholder="Número da casa">
+        <input type="text" id="cTel" placeholder="Seu Telefone">
+        <div class="modal-buttons">
+            <button onclick="document.getElementById('modalCheckout').style.display='none'" class="btn-cancelar">Cancelar</button>
+            <button onclick="confirmarPedido()" class="btn-confirmar">CONFIRMAR</button>
+        </div>
+    </div>
+</div>
+
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, onSnapshot, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const db = getFirestore(initializeApp({ apiKey: "AIzaSyDdgT50VAOkLWpDrbBJm_dLdfsehkSJBE", projectId: "zaptishopwhats" }));
+    
     let todos = [];
+    let produtoAtual = { nome: "", preco: "" };
     window.linkWhatsAppPromo = "";
 
+    // Abrir Modal
+    window.abrirModal = (nome, preco) => {
+        produtoAtual = { nome, preco };
+        document.getElementById('modalCheckout').style.display = 'flex';
+    };
+
+    // Confirmar e Enviar
+   window.confirmarPedido = () => {
+    const nome = document.getElementById('cNome').value;
+    const end = document.getElementById('cEnd').value;
+    const num = document.getElementById('cNum').value;
+    const tel = document.getElementById('cTel').value;
+    
+    if(!nome || !end || !tel) return alert("Por favor, preencha todos os campos!");
+    
+    const cod = Math.floor(Math.random() * 9000 + 1000);
+    
+    // Monta o texto original
+    const textoMensagem = `*PEDIDO #${cod}*\n\n*Item:* ${produtoAtual.nome}\n*Valor:* R$ ${produtoAtual.preco}\n\n*DADOS DE ENTREGA*\n*Nome:* ${nome}\n*Endereço:* ${end}, ${num}\n*Telefone:* ${tel}`;
+    
+    // Codifica o texto para formato de URL (essencial para evitar erros)
+    const url = `https://wa.me/5534998745318?text=${encodeURIComponent(textoMensagem)}`;
+    
+    window.open(url, '_blank');
+    document.getElementById('modalCheckout').style.display = 'none';
+};
+
+    // Renderizar Vitrine
     const render = (lista) => {
         const vitrine = document.getElementById('vitrine');
         vitrine.innerHTML = lista.map(p => `
@@ -36,7 +80,7 @@
                 <div class="product-info">
                     <h3>${p.nome}</h3>
                     <p class="price">R$ ${p.preco}</p>
-                    <button class="btn-whatsapp" onclick="window.open('https://wa.me/5534998745318?text=Quero o ${p.nome}')">PEDIR AGORA</button>
+                    <button class="btn-whatsapp" onclick="abrirModal('${p.nome}', '${p.preco}')">PEDIR AGORA</button>
                 </div>
             </div>`).join('');
     };
