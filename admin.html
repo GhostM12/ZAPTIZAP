@@ -25,28 +25,33 @@
         <input type="text" id="i" placeholder="URL da Imagem">
         <button class="btn-save" id="btnSalvar" style="background: #25d366; color: white;">SALVAR PRODUTO</button>
     </div>
+
+    <h3 style="margin-top: 40px;">📋 Produtos Cadastrados</h3>
+    <div id="listaAdmin"></div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, doc, setDoc, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = { apiKey: "AIzaSyDdgT50VAOkLWpDrbBJm_dLdfsehkSJBE", projectId: "zaptishopwhats" };
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const colRef = collection(db, "produtos");
     
     // Atualizar Promoção
     document.getElementById('btnSalvarPromo').onclick = async () => {
-        const nome = document.getElementById('promoNome').value;
-        const preco = document.getElementById('promoPreco').value;
-        const img = document.getElementById('promoImg').value;
-        await setDoc(doc(db, "config", "promocao_dia"), { nome, preco, img });
-        alert("Promoção atualizada com sucesso!");
+        await setDoc(doc(db, "config", "promocao_dia"), { 
+            nome: document.getElementById('promoNome').value, 
+            preco: document.getElementById('promoPreco').value, 
+            img: document.getElementById('promoImg').value 
+        });
+        alert("Promoção atualizada!");
     };
 
-    // Salvar Produto Comum
+    // Salvar Produto
     document.getElementById('btnSalvar').onclick = async () => {
-        await addDoc(collection(db, "produtos"), { 
+        await addDoc(colRef, { 
             nome: document.getElementById('n').value,
             preco: document.getElementById('p').value,
             estoque: parseInt(document.getElementById('q').value) || 0,
@@ -54,6 +59,27 @@
         });
         alert("Produto adicionado!");
     };
+
+    // Função Excluir
+    window.apagar = async (id) => {
+        if(confirm("Tem certeza que deseja excluir este produto?")) {
+            await deleteDoc(doc(db, "produtos", id));
+        }
+    };
+
+    // Listar Produtos com Botão Excluir
+    onSnapshot(colRef, (snap) => {
+        const lista = document.getElementById('listaAdmin');
+        lista.innerHTML = "";
+        snap.forEach(d => {
+            const p = d.data();
+            lista.innerHTML += `
+                <div style="background: #1a0026; padding: 10px; margin: 10px 0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #4b0082;">
+                    <span>${p.nome} - R$ ${p.preco}</span>
+                    <button onclick="apagar('${d.id}')" style="background: #ff4d4d; border: none; color: white; padding: 5px 15px; border-radius: 4px; cursor: pointer;">Excluir</button>
+                </div>`;
+        });
+    });
 </script>
 </body>
 </html>

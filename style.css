@@ -1,76 +1,51 @@
-/* Nevasca Açaí - Identidade Visual Profissional */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@400;600&display=swap');
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-
-body { background-color: #1a0026; color: #ffffff; line-height: 1.6; }
+body { background-color: #1a0026; color: #ffffff; }
 
 header { 
     background: linear-gradient(135deg, #4b0082, #8a2be2); 
-    padding: 2.5rem 1rem; 
-    text-align: center; 
+    padding: 2.5rem 1rem; text-align: center; 
     border-bottom: 4px solid #00f2ff;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
-
-header h1 { font-family: 'Montserrat', sans-serif; font-size: 2.5rem; text-transform: uppercase; text-shadow: 2px 2px #000; }
+header h1 { font-family: 'Montserrat', sans-serif; font-size: 2.5rem; text-transform: uppercase; }
 header h1 span { color: #00f2ff; }
 
-/* Barra de Promoção Dinâmica */
+/* Barra de Promoção Fixa (Sticky) */
 #promoBarra {
-    display: none; 
-    cursor: pointer; 
-    background: #00f2ff; 
-    color: #1a0026; 
-    padding: 12px; 
-    font-weight: 900; 
-    text-transform: uppercase; 
-    align-items: center; 
-    justify-content: center; 
-    gap: 15px; 
-    box-shadow: 0 4px 15px rgba(0, 242, 255, 0.4);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    display: none; cursor: pointer; background: #00f2ff; color: #1a0026; 
+    padding: 12px; font-weight: 900; text-transform: uppercase; 
+    align-items: center; justify-content: center; gap: 15px;
+    border-bottom: 3px solid #1a0026;
+    position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+#promoBarra img { width: 55px; height: 55px; border-radius: 8px; border: 2px solid #1a0026; object-fit: cover; }
+
+/* Barra de Busca Profissional */
+.search-wrapper { padding: 20px 1rem; max-width: 1100px; margin: 0 auto; }
+.search-box { 
+    background: #2d004d; padding: 5px; border-radius: 50px; 
+    border: 1px solid #4b0082; transition: 0.3s;
+}
+.search-box:focus-within { border-color: #00f2ff; box-shadow: 0 0 15px rgba(0, 242, 255, 0.3); }
+#campoBusca { 
+    width: 100%; padding: 15px 25px; background: transparent; 
+    border: none; color: white; font-size: 1.1rem; outline: none; 
 }
 
-#promoFoto { width: 55px; height: 55px; border-radius: 10px; object-fit: cover; border: 2px solid #1a0026; }
-
+/* Vitrine */
 .container { 
-    max-width: 1200px; 
-    margin: 2rem auto; 
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-    gap: 25px; 
-    padding: 0 1rem; 
+    max-width: 1100px; margin: 1rem auto; display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 0 1rem; 
 }
-
-/* Cards de Produto */
 .product-card { 
-    background: #2d004d; 
-    border-radius: 20px; 
-    border: 1px solid rgba(255,255,255,0.1); 
-    overflow: hidden; 
-    transition: 0.3s;
-    display: flex; flex-direction: column;
+    background: #2d004d; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); 
+    overflow: hidden; display: flex; flex-direction: column;
 }
-.product-card:hover { transform: translateY(-5px); border-color: #00f2ff; }
 .product-image { width: 100%; height: 230px; object-fit: cover; }
-
-.product-info { padding: 1.5rem; text-align: center; flex-grow: 1; }
+.product-info { padding: 1.5rem; text-align: center; }
 .price { font-size: 1.8rem; color: #00f2ff; font-weight: 900; margin: 10px 0; }
-
 .btn-whatsapp { 
     background: #25d366; color: white; border: none; padding: 12px; 
     border-radius: 50px; font-weight: bold; width: 100%; cursor: pointer;
-    font-size: 1rem; transition: 0.3s;
 }
-.btn-whatsapp:hover { background: #1ebe57; transform: scale(1.02); }
-
-/* Admin Styles */
-.admin-box { max-width: 600px; margin: 2rem auto; background: #2d004d; padding: 2rem; border-radius: 20px; border: 1px solid #00f2ff; }
-.form-group input, .form-group textarea { 
-    width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; 
-    border: 1px solid #4b0082; background: #1a0026; color: white;
-}
-.btn-save { background: #00f2ff; color: #1a0026; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }
