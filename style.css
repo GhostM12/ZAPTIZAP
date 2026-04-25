@@ -1,21 +1,43 @@
-/* Configurações Gerais - Nevasca Açaí */
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Segoe UI', sans-serif; }
+/* Nevasca Açaí - Identidade Visual Profissional */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@400;600&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
 body { background-color: #1a0026; color: #ffffff; line-height: 1.6; }
 
 header { 
     background: linear-gradient(135deg, #4b0082, #8a2be2); 
-    padding: 3rem 1rem; 
+    padding: 2.5rem 1rem; 
     text-align: center; 
-    border-bottom: 5px solid #00f2ff; 
+    border-bottom: 4px solid #00f2ff;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
-header h1 { font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px #000; }
-header h1 span { color: #00f2ff; } /* Azul Neon para o efeito Nevasca */
-header p { font-weight: bold; color: #e0e0e0; }
+header h1 { font-family: 'Montserrat', sans-serif; font-size: 2.5rem; text-transform: uppercase; text-shadow: 2px 2px #000; }
+header h1 span { color: #00f2ff; }
+
+/* Barra de Promoção Dinâmica */
+#promoBarra {
+    display: none; 
+    cursor: pointer; 
+    background: #00f2ff; 
+    color: #1a0026; 
+    padding: 12px; 
+    font-weight: 900; 
+    text-transform: uppercase; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 15px; 
+    box-shadow: 0 4px 15px rgba(0, 242, 255, 0.4);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+#promoFoto { width: 55px; height: 55px; border-radius: 10px; object-fit: cover; border: 2px solid #1a0026; }
 
 .container { 
-    max-width: 1100px; 
+    max-width: 1200px; 
     margin: 2rem auto; 
     display: grid; 
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
@@ -23,81 +45,32 @@ header p { font-weight: bold; color: #e0e0e0; }
     padding: 0 1rem; 
 }
 
-/* Card de Produto Vibrante */
+/* Cards de Produto */
 .product-card { 
     background: #2d004d; 
     border-radius: 20px; 
-    border: 2px solid #4b0082; 
+    border: 1px solid rgba(255,255,255,0.1); 
     overflow: hidden; 
-    transition: 0.3s; 
-    display: flex; 
-    flex-direction: column; 
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    transition: 0.3s;
+    display: flex; flex-direction: column;
 }
-.product-card:hover { transform: scale(1.03); border-color: #00f2ff; }
-.product-image img { width: 100%; height: 220px; object-fit: cover; border-bottom: 3px solid #4b0082; }
+.product-card:hover { transform: translateY(-5px); border-color: #00f2ff; }
+.product-image { width: 100%; height: 230px; object-fit: cover; }
 
 .product-info { padding: 1.5rem; text-align: center; flex-grow: 1; }
-.product-info h3 { font-size: 1.5rem; margin-bottom: 0.5rem; color: #fff; }
-
-.price { font-size: 1.8rem; color: #00f2ff; font-weight: 900; margin: 10px 0; text-shadow: 1px 1px 5px rgba(0,242,255,0.3); }
+.price { font-size: 1.8rem; color: #00f2ff; font-weight: 900; margin: 10px 0; }
 
 .btn-whatsapp { 
-    display: block; 
-    background: #25d366; 
-    color: white; 
-    text-decoration: none; 
-    padding: 15px; 
-    border-radius: 50px; 
-    font-weight: bold; 
-    text-align: center;
-    border: none;
-    width: 100%;
-    cursor: pointer;
-    font-size: 1.1rem;
-    transition: 0.3s;
-    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4);
+    background: #25d366; color: white; border: none; padding: 12px; 
+    border-radius: 50px; font-weight: bold; width: 100%; cursor: pointer;
+    font-size: 1rem; transition: 0.3s;
 }
-.btn-whatsapp:hover { background: #128c7e; transform: translateY(-2px); }
+.btn-whatsapp:hover { background: #1ebe57; transform: scale(1.02); }
 
-.stock-info { font-size: 0.9rem; color: #b19cd9; margin-bottom: 10px; }
-
-/* Modal de Checkout */
-.modal {
-    display: none; position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(26, 0, 38, 0.95);
-    z-index: 9999; justify-content: center; align-items: center;
+/* Admin Styles */
+.admin-box { max-width: 600px; margin: 2rem auto; background: #2d004d; padding: 2rem; border-radius: 20px; border: 1px solid #00f2ff; }
+.form-group input, .form-group textarea { 
+    width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; 
+    border: 1px solid #4b0082; background: #1a0026; color: white;
 }
-
-.modal-content {
-    background: #2d004d;
-    padding: 30px;
-    border-radius: 25px;
-    width: 90%;
-    max-width: 450px;
-    border: 2px solid #00f2ff;
-    display: flex; flex-direction: column; gap: 15px;
-}
-
-.modal-content h2 { color: #00f2ff; text-align: center; margin-bottom: 10px; }
-.modal-content input {
-    background: #1a0026;
-    border: 1px solid #4b0082;
-    padding: 15px;
-    color: #fff;
-    border-radius: 10px;
-    font-size: 1rem;
-}
-
-.modal-buttons { display: flex; gap: 10px; }
-.btn-cancelar {
-    background: #ff4444; color: white; border: none;
-    padding: 15px; border-radius: 10px; cursor: pointer; flex: 1; font-weight: bold;
-}
-
-/* Esconder elementos do Google */
-#btnAbrirGoogle, #wrapperGoogle { display: none !important; }
-
-/* Estado Esgotado */
-.btn-whatsapp.esgotado { background: #555 !important; cursor: not-allowed; opacity: 0.6; }
+.btn-save { background: #00f2ff; color: #1a0026; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }

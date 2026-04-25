@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nevasca Açaí | Uberlândia-MG</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -14,101 +13,56 @@
     <p>❄️ O Açaí mais gelado de Uberlândia ❄️</p>
 </header>
 
-<main class="container" id="vitrine"></main>
-
-<div id="modalCheckout" class="modal">
-    <div class="modal-content">
-        <h2>🍦 Finalizar Pedido</h2>
-        <input type="text" id="clienteNome" placeholder="Seu Nome">
-        <input type="text" id="clienteEndereco" placeholder="Endereço de Entrega em UDI">
-        <input type="text" id="clienteNumero" placeholder="Número/Apto/Bloco">
-        <input type="text" id="clienteContato" placeholder="Seu Telefone">
-        <div class="modal-buttons">
-            <button onclick="fecharModal()" class="btn-cancelar">Cancelar</button>
-            <button id="btnFinalizar" class="btn-whatsapp">Enviar Pedido</button>
-        </div>
+<div id="promoBarra" onclick="pedirPromo()">
+    <img id="promoFoto" src="">
+    <div>
+        🔥 PROMOÇÃO: <span id="promoTexto"></span> - R$ <span id="promoValor"></span>
+        <br><small>TOQUE AQUI PARA PEDIR!</small>
     </div>
 </div>
 
+<main class="container" id="vitrine"></main>
+
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, collection, onSnapshot, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyDdgT50VAOkLWpDrbBJm_dLdfsehkSJBE",
-        authDomain: "zaptishopwhats.firebaseapp.com",
-        projectId: "zaptishopwhats",
-        storageBucket: "zaptishopwhats.firebasestorage.app",
-        messagingSenderId: "59817153140",
-        appId: "1:59817153140:web:357f32130e15eb8b66b721"
+    const db = getFirestore(initializeApp({ apiKey: "AIzaSyDdgT50VAOkLWpDrbBJm_dLdfsehkSJBE", projectId: "zaptishopwhats" }));
+    let linkWhatsAppPromo = "";
+
+    // Carregar Promoção do Dia
+    const carregarPromo = async () => {
+        const snap = await getDoc(doc(db, "config", "promocao_dia"));
+        if (snap.exists()) {
+            const data = snap.data();
+            document.getElementById('promoBarra').style.display = 'flex';
+            document.getElementById('promoTexto').innerText = data.nome;
+            document.getElementById('promoValor').innerText = data.preco;
+            document.getElementById('promoFoto').src = data.img || 'https://via.placeholder.com/55';
+            linkWhatsAppPromo = `https://wa.me/5534998745318?text=Olá! Quero a Promoção do Dia: ${data.nome}`;
+        }
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const zapNumber = "5534998745318"; // Número atualizado (34) 998745318
+    window.pedirPromo = () => { if(linkWhatsAppPromo) window.open(linkWhatsAppPromo, '_blank'); };
+    carregarPromo();
 
-    let produtoAtual = null;
-
-    window.abrirModal = (nome, preco) => {
-        produtoAtual = { nome, preco };
-        document.getElementById('modalCheckout').style.display = 'flex';
-    };
-
-    window.fecharModal = () => {
-        document.getElementById('modalCheckout').style.display = 'none';
-        produtoAtual = null;
-    };
-
+    // Carregar Lista de Produtos
     onSnapshot(collection(db, "produtos"), (snapshot) => {
         const vitrine = document.getElementById('vitrine');
         vitrine.innerHTML = "";
         snapshot.docs.forEach(doc => {
             const p = doc.data();
-            const qtd = p.estoque || 0;
-            const esgotado = qtd <= 0;
-            
-            const cardStyle = esgotado ? "opacity: 0.7; filter: grayscale(0.8);" : "";
-            const btnClass = esgotado ? "btn-whatsapp esgotado" : "btn-whatsapp";
-            const btnTexto = esgotado ? "Esgotado ❄️" : "Eu quero esse! 😋";
-            const acaoBotao = esgotado ? "" : `onclick="abrirModal('${p.nome}', '${p.preco}')"`;
-
             vitrine.innerHTML += `
-                <div class="product-card" style="${cardStyle}">
-                    <div class="product-image"><img src="${p.img || 'https://via.placeholder.com/300x220?text=Acai+Nevasca'}"></div>
+                <div class="product-card">
+                    <img class="product-image" src="${p.img || 'https://via.placeholder.com/300'}">
                     <div class="product-info">
                         <h3>${p.nome}</h3>
                         <p class="price">R$ ${p.preco}</p>
-                        <p class="stock-info">Disponível: ${qtd}</p>
-                        <button ${acaoBotao} class="${btnClass}">${btnTexto}</button>
+                        <button class="btn-whatsapp" onclick="window.open('https://wa.me/5534998745318?text=Quero o ${p.nome}')">PEDIR PELO WHATSAPP</button>
                     </div>
                 </div>`;
         });
     });
-
-    document.getElementById('btnFinalizar').onclick = () => {
-        const nome = document.getElementById('clienteNome').value;
-        const end = document.getElementById('clienteEndereco').value;
-        const num = document.getElementById('clienteNumero').value;
-        const contato = document.getElementById('clienteContato').value;
-
-        if (!nome || !end || !contato) {
-            alert("Por favor, informe seu nome e endereço em Uberlândia!");
-            return;
-        }
-
-        const mensagem = `*❄️ NOVO PEDIDO - NEVASCA AÇAÍ ❄️*\n\n` +
-                         `*Item:* ${produtoAtual.nome}\n` +
-                         `*Valor:* R$ ${produtoAtual.preco}\n\n` +
-                         `--- DADOS DE ENTREGA ---\n` +
-                         `*Cliente:* ${nome}\n` +
-                         `*Endereço:* ${end}, ${num}\n` +
-                         `*Contato:* ${contato}\n\n` +
-                         `_Pedido realizado via Vitrine Digital_`;
-
-        const link = `https://wa.me/${zapNumber}?text=${encodeURIComponent(mensagem)}`;
-        window.open(link, '_blank');
-        fecharModal();
-    };
 </script>
 </body>
 </html>
